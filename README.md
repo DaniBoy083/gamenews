@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GameNews
 
-## Getting Started
+Forum de games para gamers, desenvolvido com Next.js (App Router), React e Tailwind CSS.
 
-First, run the development server:
+## Visao Geral
 
-```bash
+O projeto ja inclui:
+
+- Layout global com Header e Footer.
+- Header com logo GameNews, navegacao para Games e Perfil, e icone de usuario (Material UI).
+- Rotas iniciais prontas para Games e Perfil.
+- Metadata global para SEO (title, description, keywords, robots).
+- Favicon configurado a partir de public/assets/favicon.png.
+- Arquivo vercel.json configurado para deploy na Vercel.
+
+## Tecnologias
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Material UI (MUI)
+
+## Estrutura Principal
+
+- src/app/layout.tsx: Layout raiz da aplicacao.
+- src/components/Header.tsx: Cabecalho global.
+- src/components/Footer.tsx: Rodape global.
+- src/app/page.tsx: Pagina inicial.
+- src/app/games/page.tsx: Rota Games.
+- src/app/perfil/page.tsx: Rota Perfil.
+- public/assets/favicon.png: Favicon do projeto.
+- vercel.json: Configuracao de deploy para Vercel.
+
+## Como Rodar Localmente
+
+1. Instale as dependencias:
+
+npm install
+
+2. Rode o servidor de desenvolvimento:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Acesse no navegador:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Rotas Disponiveis
 
-## Learn More
+- /
+- /games
+- /perfil
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- npm run dev: inicia ambiente de desenvolvimento.
+- npm run build: gera build de producao.
+- npm run start: inicia aplicacao em modo producao.
+- npm run lint: executa validacao de lint.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy na Vercel
 
-## Deploy on Vercel
+Este projeto ja esta preparado para deploy com Vercel.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Conecte o repositorio na Vercel.
+2. Mantenha as configuracoes padrao para Next.js.
+3. Faça o deploy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Configuracao usada:
+
+- framework: nextjs
+- arquivo: vercel.json
+
+## Objetivo do Projeto
+
+Criar uma base solida para um portal/forum gamer, com estrutura reutilizavel de layout e navegacao pronta para crescimento de features, como autenticacao, publicacao de conteudo e perfis de usuario.
