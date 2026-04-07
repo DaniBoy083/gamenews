@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 // Metadados globais aplicados em todas as rotas do App Router.
 export const metadata: Metadata = {
   title: "Game News",
-  description: "Forum de games para gamers",
+  description: "Fórum de games para gamers",
   keywords: [
     "game news",
-    "noticias de games",
-    "forum de games",
+    "notícias de games",
+    "fórum de games",
     "jogos",
     "games",
     "gamer",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "nintendo",
     "esports",
     "reviews de jogos",
-    "lancamentos de games",
+    "lançamentos de games",
     "comunidade gamer",
   ],
   robots: {
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * Layout raiz da aplicacao.
- * Centraliza a composicao de Header, conteudo da pagina e Footer.
+ * Layout raiz da aplicação.
+ * Centraliza a composição de Header, conteúdo da página e Footer.
  */
 export default function RootLayout({
   children,
@@ -65,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
