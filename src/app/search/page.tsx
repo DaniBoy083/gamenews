@@ -1,26 +1,23 @@
-import { GamesSearch } from "../../components/GamesSearch";
+import { SearchPageClient } from "../../components/SearchPageClient";
 
-/**
- * Página inicial da seção Games.
- */
-export default function GamesPage() {
+export default function SearchPage() {
   return (
     <section className="min-h-full bg-zinc-50 px-4 py-16 text-zinc-950 dark:bg-black dark:text-zinc-50">
       <div className="mx-auto flex w-full max-w-6xl flex-col">
         <div className="max-w-3xl">
           <span className="inline-flex rounded-full border border-red-200 bg-red-50 px-3 py-1 text-sm font-semibold text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">
-            Catalogo conectado com API
+            Search ao vivo
           </span>
           <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
-            Pesquise jogos em tempo real.
+            Pesquise e veja a pagina atualizar enquanto digita.
           </h1>
           <p className="mt-4 text-base leading-7 text-zinc-600 dark:text-zinc-300 sm:text-lg">
-            Digite um termo, refine por categoria e plataforma e navegue pelas
-            paginas mantendo os filtros sincronizados com a URL.
+            Esta rota foi feita para busca dedicada, com sugestoes de auto
+            complete e resultados que acompanham o termo digitado em tempo real.
           </p>
         </div>
 
-        <GamesSearch />
+        <SearchPageClient />
       </div>
     </section>
   );
