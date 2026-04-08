@@ -1,4 +1,43 @@
+import type { Metadata } from "next";
 import { GamesSearch } from "../../components/GamesSearch";
+import { getGames } from "../../lib/games";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const games = await getGames();
+  const featuredGame = games[0];
+
+  return {
+    title: "Catalogo de jogos",
+    description:
+      "Explore o catalogo Game News com filtros por nome, categoria e plataforma, incluindo busca com sugestoes e paginacao.",
+    alternates: {
+      canonical: "/games",
+    },
+    openGraph: {
+      title: "Catalogo de jogos | Game News",
+      description:
+        "Pesquise jogos em tempo real, refine por categoria e plataforma e abra a pagina de detalhes de cada titulo.",
+      url: "/games",
+      images: featuredGame
+        ? [
+            {
+              url: featuredGame.image_url,
+              alt: `Capa do jogo ${featuredGame.title}`,
+            },
+          ]
+        : undefined,
+    },
+    twitter: featuredGame
+      ? {
+          card: "summary_large_image",
+          title: "Catalogo de jogos | Game News",
+          description:
+            "Explore o catalogo Game News com filtros e paginas de detalhes dos jogos.",
+          images: [featuredGame.image_url],
+        }
+      : undefined,
+  };
+}
 
 /**
  * Página inicial da seção Games.

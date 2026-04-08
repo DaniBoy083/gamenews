@@ -5,6 +5,12 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,8 +23,13 @@ const geistMono = Geist_Mono({
 
 // Metadados globais aplicados em todas as rotas do App Router.
 export const metadata: Metadata = {
-  title: "Game News",
-  description: "Fórum de games para gamers",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Game News | Noticias, catalogo e busca de jogos",
+    template: "%s | Game News",
+  },
+  description:
+    "Portal de games com destaque diario, catalogo filtravel, pagina de detalhes e busca em tempo real para descobrir jogos.",
   keywords: [
     "game news",
     "notícias de games",
@@ -35,6 +46,33 @@ export const metadata: Metadata = {
     "lançamentos de games",
     "comunidade gamer",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Game News | Noticias, catalogo e busca de jogos",
+    description:
+      "Acompanhe destaques de jogos, navegue por um catalogo conectado com API e encontre titulos com busca em tempo real.",
+    url: "/",
+    siteName: "Game News",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/assets/favicon.png",
+        width: 512,
+        height: 512,
+        alt: "Logo do Game News",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Game News | Noticias, catalogo e busca de jogos",
+    description:
+      "Explore jogos em destaque, listagem filtravel e paginas de detalhes no Game News.",
+    images: ["/assets/favicon.png"],
+  },
   robots: {
     index: true,
     follow: true,
@@ -53,6 +91,7 @@ export const metadata: Metadata = {
     shortcut: "/assets/favicon.png",
     apple: "/assets/favicon.png",
   },
+  category: "games",
 };
 
 /**

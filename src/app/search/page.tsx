@@ -1,4 +1,90 @@
+import type { Metadata } from "next";
 import { SearchPageClient } from "../../components/SearchPageClient";
+import { getGames, getSearchMatches } from "../../lib/games";
+
+type SearchPageProps = {
+  searchParams: Promise<{ q?: string | string[] }>;
+};
+
+export async function generateMetadata({
+  searchParams,
+}: SearchPageProps): Promise<Metadata> {
+  const resolvedSearchParams = await searchParams;
+  const queryValue = Array.isArray(resolvedSearchParams.q)
+    ? resolvedSearchParams.q[0]
+    : resolvedSearchParams.q;
+  const normalizedQuery = queryValue?.trim();
+
+  if (!normalizedQuery) {
+    const games = await getGames();
+    const featuredGame = games[0];
+
+    return {
+      title: "Search",
+      description:
+        "Use a busca dedicada do Game News para encontrar jogos por nome, categoria, plataforma e termos relacionados.",
+      alternates: {
+        canonical: "/search",
+      },
+      openGraph: {
+        title: "Busca de jogos | Game News",
+        description:
+          "Pesquise jogos em tempo real com sugestoes de auto complete e resultados instantaneos.",
+        url: "/search",
+        images: featuredGame
+          ? [
+              {
+                url: featuredGame.image_url,
+                alt: `Capa do jogo ${featuredGame.title}`,
+              },
+            ]
+          : undefined,
+      },
+      twitter: featuredGame
+        ? {
+            card: "summary_large_image",
+            title: "Busca de jogos | Game News",
+            description:
+              "Pesquise jogos em tempo real com sugestoes e resultados instantaneos.",
+            images: [featuredGame.image_url],
+          }
+        : undefined,
+    };
+  }
+
+  const games = await getGames();
+  const matches = getSearchMatches(games, normalizedQuery);
+  const featuredGame = matches[0] ?? games[0];
+
+  return {
+    title: `Search | ${normalizedQuery}`,
+    description: `Resultados de busca para ${normalizedQuery} no catalogo Game News.`,
+    alternates: {
+      canonical: `/search?q=${encodeURIComponent(normalizedQuery)}`,
+    },
+    openGraph: {
+      title: `Busca por ${normalizedQuery} | Game News`,
+      description: `Confira os jogos relacionados a ${normalizedQuery} no catalogo Game News.`,
+      url: `/search?q=${encodeURIComponent(normalizedQuery)}`,
+      images: featuredGame
+        ? [
+            {
+              url: featuredGame.image_url,
+              alt: `Capa do jogo ${featuredGame.title}`,
+            },
+          ]
+        : undefined,
+    },
+    twitter: featuredGame
+      ? {
+          card: "summary_large_image",
+          title: `Busca por ${normalizedQuery} | Game News`,
+          description: `Confira os jogos relacionados a ${normalizedQuery} no catalogo Game News.`,
+          images: [featuredGame.image_url],
+        }
+      : undefined,
+  };
+}
 
 export default function SearchPage() {
   return (

@@ -1,44 +1,67 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-type Game = {
-  id: number;
-  title: string;
-  description: string;
-  image_url: string;
-  platforms: string[];
-  categories: string[];
-  release: string;
-};
+import { getGameById } from "../../../lib/games";
 
 type GameDetailsPageProps = {
   params: Promise<{ id: string }>;
 };
 
-const GAMES_API_URL = "https://sujeitoprogramador.com/next-api/?api=games";
 const imageSizes = [
   "(max-width: 768px) 100vw",
   "(max-width: 1280px) 92vw",
   "64vw",
 ].join(", ");
 
-async function getGameById(id: number): Promise<Game | null> {
-  try {
-    const response = await fetch(GAMES_API_URL, {
-      next: { revalidate: 320, tags: ["games-list", `game-${id}`] },
-    });
+export async function generateMetadata({
+  params,
+}: GameDetailsPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const gameId = Number(id);
 
-    if (!response.ok) {
-      return null;
-    }
-
-    const games = (await response.json()) as Game[];
-
-    return games.find((game) => game.id === id) ?? null;
-  } catch {
-    return null;
+  if (!Number.isInteger(gameId) || gameId <= 0) {
+    return {
+      title: "Jogo nao encontrado",
+      description: "O jogo solicitado nao foi localizado no catalogo Game News.",
+    };
   }
+
+  const game = await getGameById(gameId);
+
+  if (!game) {
+    return {
+      title: "Jogo nao encontrado",
+      description: "O jogo solicitado nao foi localizado no catalogo Game News.",
+    };
+  }
+
+  return {
+    title: game.title,
+    description: game.description,
+    alternates: {
+      canonical: `/games/${game.id}`,
+    },
+    openGraph: {
+      title: `${game.title} | Game News`,
+      description: game.description,
+      url: `/games/${game.id}`,
+      type: "article",
+      images: [
+        {
+          url: game.image_url,
+          alt: `Capa do jogo ${game.title}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${game.title} | Game News`,
+      description: game.description,
+      images: [game.image_url],
+    },
+    keywords: [...game.categories, ...game.platforms, game.title],
+  };
 }
 
 export default async function GameDetailsPage({ params }: GameDetailsPageProps) {

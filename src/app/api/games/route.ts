@@ -1,31 +1,16 @@
 import { NextResponse } from "next/server";
-
-type Game = {
-  id: number;
-  title: string;
-  description: string;
-  image_url: string;
-  platforms: string[];
-  categories: string[];
-  release: string;
-};
-
-const GAMES_API_URL = "https://sujeitoprogramador.com/next-api/?api=games";
+import { getGames } from "../../../lib/games";
 
 export async function GET() {
   try {
-    const response = await fetch(GAMES_API_URL, {
-      next: { revalidate: 320, tags: ["games-list"] },
-    });
+    const games = await getGames();
 
-    if (!response.ok) {
+    if (games.length === 0) {
       return NextResponse.json(
         { message: "Nao foi possivel carregar os jogos." },
-        { status: response.status },
+        { status: 500 },
       );
     }
-
-    const games = (await response.json()) as Game[];
 
     return NextResponse.json(games);
   } catch {

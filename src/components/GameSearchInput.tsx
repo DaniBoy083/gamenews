@@ -176,7 +176,8 @@ export function GameSearchInput({
           aria-activedescendant={
             safeActiveIndex >= 0 ? `${id}-suggestion-${safeActiveIndex}` : undefined
           }
-          className={`w-full rounded-2xl border border-zinc-300 bg-zinc-50 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-red-500 focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-red-400 ${
+          style={{ WebkitTextFillColor: "currentColor" }}
+          className={`w-full rounded-2xl border border-zinc-300 bg-zinc-50 text-zinc-950 caret-red-500 outline-none transition placeholder:text-zinc-400 focus:border-red-500 focus:bg-white dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50 dark:placeholder:text-zinc-500 dark:focus:border-red-400 ${
             isCompact ? "px-4 py-2.5 text-sm" : "px-4 py-3 text-base"
           }`}
         />

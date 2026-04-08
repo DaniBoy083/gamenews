@@ -1,19 +1,8 @@
 
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
-type DailyGame = {
-  id: number;
-  title: string;
-  description: string;
-  image_url: string;
-  platforms: string[];
-  categories: string[];
-  release: string;
-};
-
-const GAME_DAY_URL =
-  "https://sujeitoprogramador.com/next-api/?api=game_day";
+import { getDailyGame } from "../lib/games";
 
 const imageSizeRules = [
   { media: "(max-width: 640px)", size: "100vw" },
@@ -27,20 +16,50 @@ function getResponsiveImageSizes() {
   );
 }
 
-async function getDailyGame(): Promise<DailyGame | null> {
-  try {
-    const response = await fetch(GAME_DAY_URL, {
-      next: { revalidate: 320, tags: ["game-day"] },
-    });
+export async function generateMetadata(): Promise<Metadata> {
+  const dailyGame = await getDailyGame();
 
-    if (!response.ok) {
-      return null;
-    }
-
-    return (await response.json()) as DailyGame;
-  } catch {
-    return null;
+  if (!dailyGame) {
+    return {
+      title: "Home",
+      description:
+        "Descubra um jogo diferente por dia e acompanhe os destaques mais recentes do catalogo Game News.",
+      alternates: {
+        canonical: "/",
+      },
+      openGraph: {
+        title: "Game News | Jogo em destaque do dia",
+        description:
+          "Veja o destaque do dia e navegue pelo catalogo de jogos com filtros e busca em tempo real.",
+        url: "/",
+      },
+    };
   }
+
+  return {
+    title: `Home | ${dailyGame.title} em destaque`,
+    description: dailyGame.description,
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title: `${dailyGame.title} em destaque no Game News`,
+      description: dailyGame.description,
+      url: "/",
+      images: [
+        {
+          url: dailyGame.image_url,
+          alt: `Capa do jogo ${dailyGame.title}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${dailyGame.title} em destaque no Game News`,
+      description: dailyGame.description,
+      images: [dailyGame.image_url],
+    },
+  };
 }
 
 export default async function Home() {

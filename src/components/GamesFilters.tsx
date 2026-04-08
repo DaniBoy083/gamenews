@@ -50,9 +50,7 @@ export function GamesFilters({
             query={query}
             placeholder="Busque por nome, categoria, plataforma ou descricao"
             suggestions={searchSuggestions}
-            helperHref={query.trim() ? `/search?q=${encodeURIComponent(query.trim())}` : "/search"}
-            helperLabel="Abrir search"
-            statusText="Use as sugestoes para preencher rapido ou abra a busca dedicada."
+            statusText="Use as sugestoes para preencher rapido enquanto filtra o catalogo."
             onQueryChange={onQueryChange}
             onSuggestionSelect={onSuggestionSelect}
           />
